@@ -5,6 +5,8 @@
     padding: 0;
     margin: 0;
     list-style: none;
+    /*justify-items: center;
+    /align-items: center;*/
 }
 .showcase__item {
     border: solid 1px lightgray;
