@@ -1,7 +1,7 @@
 import React from 'react'
 import './Film.css'
 
-const BASE_URL_IMAGE = 'https://image.tmdb.org/t/p/w185';
+const BASE_URL_IMAGE = 'https://image.tmdb.org/t/p/w342';
 
 export default props => 
     <div className='film'>

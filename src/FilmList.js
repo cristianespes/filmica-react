@@ -3,7 +3,7 @@ import Showcase from './Components/Showcase';
 import Film from './Components/Film';
 import Loading from './Components/Loading';
 import Error from './Components/Error';
-import './App.css';
+import './FilmList.css';
 
 /*const FILMS = Array.from({ length: 100 }).map((_, index) => ({
   id: index,
