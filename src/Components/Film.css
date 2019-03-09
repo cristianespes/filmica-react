@@ -1,0 +1,10 @@
+.film {
+    text-align: center
+}
+.film__poster {
+    display: inline-block;
+    border-radius: 5%;
+}
+.film__title {
+    font-size: 1em;
+}

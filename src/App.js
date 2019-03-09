@@ -1,26 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Showcase from './Components/Showcase';
+import Film from './Components/Film';
 import './App.css';
 
+const FILMS = Array.from({ length: 100 }).map((_, index) => ({
+  id: index,
+  title: 'Película',
+  poster_path: 'http://placehold.it/125x200'
+}));
+
+const URL_DISCOVER = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1';
+
 class App extends Component {
+  state = { films: []}
+
+  async componentDidMount() {
+    const response = await fetch(URL_DISCOVER);
+    const { results } = await response.json();
+    this.setState({films: results});
+  }
+
   render() {
+    const { films } = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Showcase keyFn={item => item.id} items={films} render={film => 
+        <Film details={film} />
+      }/>
     );
   }
 }
