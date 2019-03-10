@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import Showcase from './Showcase';
 import Film from './Film';
 import Loading from './Loading';
@@ -63,9 +65,11 @@ class FilmList extends Component {
 
     return (
       <Showcase keyFn={item => item.id} items={films} render={film => 
-        <Film details={film} >
-          <button onClick={() => this.addFavourite(film.id)}>Favourite</button>
-        </ Film>
+        <Link to={`/detail/${film.id}`}>
+          <Film details={film} >
+            <button onClick={() => this.addFavourite(film.id)}>Add to favourite</button>
+          </ Film>
+        </Link>
       }/>
     );
   }
@@ -83,7 +87,7 @@ class FilmList extends Component {
 
   addFavourite = filmID => {
     const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
-    
+
     if (!favourites.includes(filmID)) {
       favourites.push(filmID);
       localStorage.setItem('favourites', JSON.stringify(favourites));
