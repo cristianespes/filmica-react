@@ -14,11 +14,11 @@ import './FilmList.css';
 const URL_DISCOVER = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1';
 const URL_DISCOVER_PAGING = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
 
-class App extends Component {
+class FilmList extends Component {
   state = { films: [], loading: true }
 
   async componentDidMount() {
-    try {
+    /*try {
       const response = await fetch(URL_DISCOVER);
       const { results } = await response.json();
       this.setState({ films: results });
@@ -26,7 +26,7 @@ class App extends Component {
       this.setState({ error: true });
     } finally {
       this.setState({ loading: false });
-    }
+    }*/
 
     /*Array.from({ length: 10 }).map(async (_, index) => {
       const response = await fetch(`${URL_DISCOVER_PAGING}${index + 1}`);
@@ -38,7 +38,21 @@ class App extends Component {
       const response = await fetch(`${URL_DISCOVER_PAGING}${index + 1}`);
       const { results } = await response.json();
       return results;
-    });*/
+    });
+
+    this.addFilms(results);*/
+
+    try {
+      for (var i = 0; i < 15; i++) {
+          const response = await fetch(`${URL_DISCOVER_PAGING}${i + 1}`);
+          const { results } = await response.json();
+          this.addFilms(results);
+       }
+    } catch(error) {
+      this.setState({ error: true });
+    } finally {
+      this.setState({ loading: false });
+    }
   }
 
   render() {
@@ -49,7 +63,9 @@ class App extends Component {
 
     return (
       <Showcase keyFn={item => item.id} items={films} render={film => 
-        <Film details={film} />
+        <Film details={film} >
+          <button onClick={() => this.addFavourite(film.id)}>Favourite</button>
+        </ Film>
       }/>
     );
   }
@@ -64,6 +80,15 @@ class App extends Component {
 
     this.setState(nextState);
   }
+
+  addFavourite = filmID => {
+    const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
+    
+    if (!favourites.includes(filmID)) {
+      favourites.push(filmID);
+      localStorage.setItem('favourites', JSON.stringify(favourites));
+    }
+  }
 }
 
-export default App;
+export default FilmList;
