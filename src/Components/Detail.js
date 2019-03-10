@@ -12,11 +12,16 @@ import './Detail.css';
 const URL_SEARCH_ID = 'https://api.themoviedb.org/3/movie/movie_id?api_key=e68728e1e31dcda82f7b2b896f0c47be';
 
 class Detail extends React.Component{
-    state = { loading: true, showingForm: false, movieId: this.props.match.params.movieId, isFavourite: false };
+    state = { loading: true, showingForm: false, movieId: this.props.match.params.movieId };
 
     async componentDidMount() {
         const assessments = JSON.parse(localStorage.getItem('assessments')) || {};
         this.setState({ assessment: assessments[this.state.movieId] || ''});
+
+        const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
+        if (favourites.filter(id => id === this.state.movieId)) {
+            this.setState({isFavourite: true});
+        }
 
         try {
             const response = await fetch(URL_SEARCH_ID.replace('movie_id', this.state.movieId));
