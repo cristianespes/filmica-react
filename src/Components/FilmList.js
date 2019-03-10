@@ -63,7 +63,9 @@ class FilmList extends Component {
 
     return (
       <Showcase keyFn={item => item.id} items={films} render={film => 
-        <Film details={film} />
+        <Film details={film} >
+          <button onClick={() => this.addFavourite(film.id)}>Favourite</button>
+        </ Film>
       }/>
     );
   }
@@ -77,6 +79,15 @@ class FilmList extends Component {
     }
 
     this.setState(nextState);
+  }
+
+  addFavourite = filmID => {
+    const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
+    
+    if (!favourites.includes(filmID)) {
+      favourites.push(filmID);
+      localStorage.setItem('favourites', JSON.stringify(favourites));
+    }
   }
 }
 

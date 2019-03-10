@@ -4,8 +4,6 @@ import Film from './Film';
 import Loading from './Loading';
 import Error from './Error';
 
-const FAVOURITES = [299537, 399579, 297802];
-
 const URL_DISCOVER = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1';
 const URL_DISCOVER_PAGING = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
 const URL_SEARCH_ID = 'https://api.themoviedb.org/3/movie/movie_id?api_key=e68728e1e31dcda82f7b2b896f0c47be';
@@ -14,12 +12,14 @@ class FavouriteList extends Component {
   state = { films: [], loading: true, hasFavourites: true };
 
   async componentDidMount() {
-      if (FAVOURITES.length === 0) {
-          return this.setState({ hasFavourites: false });
-      } 
+    const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
+
+    if (favourites.length === 0) {
+        return this.setState({ hasFavourites: false });
+    } 
 
     try {
-        FAVOURITES.map(async id => {
+        favourites.map(async id => {
             const response = await fetch(URL_SEARCH_ID.replace('movie_id', id));
             const results = await response.json();
             this.addFilms(results);
@@ -59,6 +59,10 @@ class FavouriteList extends Component {
   }
 
   unfollow = filmID => {
+    const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
+    const updatedFavourites = favourites.filter(id => id !== filmID);
+    localStorage.setItem('favourites', JSON.stringify(updatedFavourites));
+
     const updatedFilms = this.state.films.filter(film => film.id !== filmID);
     this.setState({films: updatedFilms});
   }
