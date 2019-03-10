@@ -1,0 +1,13 @@
+.detail{
+
+}
+
+.dataList{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.dataList__data{
+    border-bottom: solid 1px lightgray;
+}

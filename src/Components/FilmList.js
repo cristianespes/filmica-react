@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Showcase from './Components/Showcase';
-import Film from './Components/Film';
-import Loading from './Components/Loading';
-import Error from './Components/Error';
+import Showcase from './Showcase';
+import Film from './Film';
+import Loading from './Loading';
+import Error from './Error';
 import './FilmList.css';
 
 /*const FILMS = Array.from({ length: 100 }).map((_, index) => ({
