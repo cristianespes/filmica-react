@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
 import Showcase from './Showcase';
 import Film from './Film';
 import Loading from './Loading';
@@ -40,9 +42,11 @@ class FavouriteList extends Component {
 
     return (
       <Showcase keyFn={item => item.id} items={films} render={film => 
+        <Link to={`/detail/${film.id}`}>
         <Film details={film} >
             <button onClick={() => this.unfollow(film.id)}>Unfollow</button>
         </ Film>
+      </Link>
       }/>
     );
   }

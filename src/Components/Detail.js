@@ -1,30 +1,48 @@
 import React from 'react';
+
 import Film from './Film';
 import Data from './Data';
 import AddAssessment from './AddAssessment';
 import AddFavourite from './AddFavourite';
+import Loading from './Loading';
+import Error from './Error';
 
 import './Detail.css';
 
-const SAMPLE_FILM = ({
-    id: 299537,
-    title: 'Captain Marvel',
-    poster_path: '/AtsgWhDnHTq68L0lLsUrCnM7TjG.jpg',
-    backdrop_path: '/w2PMyoyLU22YvrGK3smVM9fW1jj.jpg',
-    overview: 'The story follows Carol Danvers as she becomes one of the universe’s most powerful heroes when Earth is caught in the middle of a galactic war between two alien races. Set in the 1990s, Captain Marvel is an all-new adventure from a previously unseen period in the history of the Marvel Cinematic Universe.',
-    release_date: '2019-03-06'
-  });
+const URL_SEARCH_ID = 'https://api.themoviedb.org/3/movie/movie_id?api_key=e68728e1e31dcda82f7b2b896f0c47be';
 
 class Detail extends React.Component{
+    state = { loading: true, showingForm: false, movieId: this.props.match.params.movieId };
 
-    state = { showingForm: false, isFavourite: false, assessment: '' };
+    async componentDidMount() {
+        const assessments = JSON.parse(localStorage.getItem('assessments')) || {};
+        this.setState({ assessment: assessments[this.state.movieId] || ''});
+
+        const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
+        if (favourites.filter(id => id === this.state.movieId)) {
+            this.setState({isFavourite: true});
+        }
+
+        try {
+            const response = await fetch(URL_SEARCH_ID.replace('movie_id', this.state.movieId));
+            const results = await response.json();
+            this.setState({ film: results });
+          } catch(error) {
+            this.setState({ error: true });
+          } finally {
+            this.setState({ loading: false });
+          }
+    }
 
     render() {
-        const { assessment } = this.state;
+        const { error, loading, film, assessment } = this.state;
+
+        if (error) return <Error />
+        if (loading) return <Loading />
+
         return (
             <div className='detail'>
-                <Film details={SAMPLE_FILM} />
-                
+                <Film details={film} />
                 {
                     !this.state.isFavourite &&
                     <AddFavourite />
@@ -38,10 +56,10 @@ class Detail extends React.Component{
                 
                 <ul className='dataList'>
                     <li key='overview' className='dataList__data' >
-                        <Data title='Overview' content={SAMPLE_FILM.overview}/>
+                        <Data title='Overview' content={film.overview}/>
                     </li>
                     <li key='release' className='dataList__data'>
-                        <Data title='Release date' content={SAMPLE_FILM.release_date}/>
+                        <Data title='Release date' content={film.release_date}/>
                     </li>
                     {
                         (parseInt(assessment) >= 0 && parseInt(assessment) <= 100) &&
@@ -68,6 +86,10 @@ class Detail extends React.Component{
             assessment: newAssessment
         }));
         this.hideForm();
+
+        const assessments = JSON.parse(localStorage.getItem('assessments')) || {};
+        assessments[this.state.movieId] = newAssessment;
+        localStorage.setItem('assessments', JSON.stringify(assessments));
     }
 }
 

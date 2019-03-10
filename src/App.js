@@ -1,9 +1,9 @@
 import React from 'react';
-import FilmList from './Components/FilmList';
-import Detail from './Components/Detail';
-import Login from './Components/Login';
-//<Login onLogin={console.table}/>
-import FavouriteList from './Components/FavouriteList';
+import { BrowserRouter } from 'react-router-dom';
+
+import Routes from './Components/Routes';
 
 export default () =>
-    <FavouriteList />
+    <BrowserRouter >
+        <Routes />
+    </BrowserRouter>
