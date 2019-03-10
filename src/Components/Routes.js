@@ -13,5 +13,5 @@ export default props =>
         <Route exact path='/favourites' component={FavouriteList} />
         <Route exact path='/detail/:movieId' component={Detail} />
         <Route exact path='/login' component={Login} />
-        <Route component={ <p>Error 404, page not found</p> }/>
+        <Route component={ () => <p>Error 404, page not found</p> }/>
     </Switch>
