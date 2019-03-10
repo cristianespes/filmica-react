@@ -12,7 +12,7 @@ class AddAssessment extends React.Component {
                     <input name='assessment' value={assessment} onChange={this.setAssessment} type="number"/>
                     /100</label>
                 <div>
-                    <button onClick={this.assesst}>assess</button>
+                    <button onClick={this.assesst}>Assess</button>
                     <button onClick={this.props.onCancel}>Cancel</button>
                 </div>
             </form>

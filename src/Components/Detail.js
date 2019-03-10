@@ -17,7 +17,7 @@ const SAMPLE_FILM = ({
 
 class Detail extends React.Component{
 
-    state = { showingForm: false, isFavourite: false, assessment: '10' };
+    state = { showingForm: false, isFavourite: false, assessment: '' };
 
     render() {
         const { assessment } = this.state;
@@ -46,7 +46,7 @@ class Detail extends React.Component{
                     {
                         (parseInt(assessment) >= 0 && parseInt(assessment) <= 100) &&
                         <li key='assessment' className='dataList__data'>
-                            <Data title='Assessment' content={assessment}/>
+                            <Data title='Assessment' content={`${parseInt(assessment)/10}/10`}/>
                         </li>
                     }
                     
@@ -59,10 +59,6 @@ class Detail extends React.Component{
         this.setState({showingForm: true});
     }
 
-    checkValue = (assessment) => {
-        console.log("Valor: " + assessment);
-    }
-
     hideForm = () => {
         this.setState({showingForm: false});
     }
@@ -71,6 +67,7 @@ class Detail extends React.Component{
             ...previousState,
             assessment: newAssessment
         }));
+        this.hideForm();
     }
 }
 
