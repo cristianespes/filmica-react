@@ -12,13 +12,13 @@ class Login extends React.Component {
 
     componentDidMount() {
         const user = JSON.parse(localStorage.getItem('user'));
-        if (user) this.setState({isLogged: true});
+        if (user) this.setState({name: `${user.name.first} ${user.name.last}`});
     }
 
     render() {
-        const { isLogged, user, password } = this.state;
+        const { name, user, password } = this.state;
 
-        if (isLogged) return <div />
+        if (name) return <p>Hola {name}</p>
         return (
             <form onSubmit={this.login}>
                 <label>
@@ -69,7 +69,7 @@ class Login extends React.Component {
 
         this.props.onSuccess(foundUser);
 
-        this.setState({isLogged: true});
+        this.setState({name: `${foundUser.name.first} ${foundUser.name.last}`});
     };
 
     checkLogin = (user, password) => {
