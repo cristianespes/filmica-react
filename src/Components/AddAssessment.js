@@ -10,7 +10,7 @@ class AddAssessment extends React.Component {
                 <p><b>Add assessment:</b></p>
                 <label>Assessment:
                     <input name='assessment' value={assessment} onChange={this.setAssessment} type="number"/>
-                    /100</label>
+                    /10</label>
                 <div>
                     <button onClick={this.assesst}>Assess</button>
                     <button onClick={this.props.onCancel}>Cancel</button>
@@ -24,7 +24,7 @@ class AddAssessment extends React.Component {
     }
     setAssessment = event => {
         const value = event.target.value
-        if (value >= 0 && value <= 100) {
+        if (value >= 0 && value <= 10) {
             this.setState({ assessment: value })
         }
     }

@@ -5,16 +5,21 @@ import Showcase from './Showcase';
 import Film from './Film';
 import Loading from './Loading';
 import Error from './Error';
+import LoggedError from './LoggedError';
 
-const URL_DISCOVER = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1';
-const URL_DISCOVER_PAGING = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
 const URL_SEARCH_ID = 'https://api.themoviedb.org/3/movie/movie_id?api_key=e68728e1e31dcda82f7b2b896f0c47be';
 
 class FavouriteList extends Component {
   state = { films: [], loading: true, hasFavourites: true };
 
   async componentDidMount() {
-    const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (!user) return this.setState({isNotLogged: true});
+
+    const favourites = (
+      JSON.parse(localStorage.getItem('favourites')) || {}
+    )[user.login.uuid] || [];
 
     if (favourites.length === 0) {
         return this.setState({ hasFavourites: false });
@@ -29,13 +34,14 @@ class FavouriteList extends Component {
       } catch(error) {
         this.setState({ error: true });
       } finally {
-        this.setState({ loading: false });
+        this.setState({ loading: false, user: user });
       }
   }
 
   render() {
-    const { films, loading, error, hasFavourites } = this.state;
+    const { isNotLogged, films, loading, error, hasFavourites } = this.state;
 
+    if (isNotLogged) return <LoggedError />
     if (!hasFavourites) return <p>No favourite movies yet</p>
     if (error) return <Error />
     if (loading) return <Loading />
@@ -63,9 +69,11 @@ class FavouriteList extends Component {
   }
 
   unfollow = filmID => {
-    const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
-    const updatedFavourites = favourites.filter(id => id !== filmID);
-    localStorage.setItem('favourites', JSON.stringify(updatedFavourites));
+    const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
+    const favouritesUser = favourites[this.state.user.login.uuid] || [];
+    const updatedFavourites = favouritesUser.filter(id => id !== filmID);
+    favourites[this.state.user.login.uuid] = updatedFavourites;
+    localStorage.setItem('favourites', JSON.stringify(favourites));
 
     const updatedFilms = this.state.films.filter(film => film.id !== filmID);
     this.setState({films: updatedFilms});

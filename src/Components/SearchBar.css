@@ -1,0 +1,16 @@
+.search{
+    padding: 1em;
+    text-align: center;
+}
+
+.search__label{
+    padding: 0 .5em;
+}
+
+.search__query{
+    margin: 0 .5em;
+}
+
+.search__button {
+    
+}

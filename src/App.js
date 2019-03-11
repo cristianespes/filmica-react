@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
-import Routes from './Components/Routes';
+import Filmica from './Components/Filmica';
 
 export default () =>
     <BrowserRouter >
-        <Routes />
+        <Filmica />
     </BrowserRouter>

@@ -1,0 +1,25 @@
+.menu{
+    padding: 1em;
+    display: inline-block;
+    width: 100%;
+}
+
+.menu__options{
+    padding: 0;
+    margin: 0;
+    display: flex;
+    list-style: none;
+}
+
+.menu__option{
+    cursor: pointer;
+    padding: 0 .5em;
+}
+
+.menu__link{
+    text-decoration: none;
+}
+
+.menu__link.active {
+    color: black;
+}

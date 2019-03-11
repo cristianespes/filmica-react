@@ -7,12 +7,6 @@ import Loading from './Loading';
 import Error from './Error';
 import './FilmList.css';
 
-/*const FILMS = Array.from({ length: 100 }).map((_, index) => ({
-  id: index,
-  title: 'Película',
-  poster_path: 'http://placehold.it/125x200'
-}));*/
-
 const URL_DISCOVER = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1';
 const URL_DISCOVER_PAGING = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
 
@@ -20,6 +14,12 @@ class FilmList extends Component {
   state = { films: [], loading: true }
 
   async componentDidMount() {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+      this.setState({user: user});
+    }
+    
     /*try {
       const response = await fetch(URL_DISCOVER);
       const { results } = await response.json();
@@ -58,7 +58,7 @@ class FilmList extends Component {
   }
 
   render() {
-    const { films, loading, error } = this.state;
+    const { user, films, loading, error } = this.state;
 
     if (error) return <Error />
     if (loading) return <Loading />
@@ -67,7 +67,11 @@ class FilmList extends Component {
       <Showcase keyFn={item => item.id} items={films} render={film => 
         <Link to={`/detail/${film.id}`}>
           <Film details={film} >
+          {
+            user &&
             <button onClick={() => this.addFavourite(film.id)}>Add to favourite</button>
+          }
+            
           </ Film>
         </Link>
       }/>
@@ -86,10 +90,12 @@ class FilmList extends Component {
   }
 
   addFavourite = filmID => {
-    const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
+    const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
+    const favouritesUser = favourites[this.state.user.login.uuid] || [];
 
-    if (!favourites.includes(filmID)) {
-      favourites.push(filmID);
+    if (!favouritesUser.includes(filmID)) {
+      favouritesUser.push(filmID);
+      favourites[this.state.user.login.uuid] = favouritesUser;
       localStorage.setItem('favourites', JSON.stringify(favourites));
     }
   }
