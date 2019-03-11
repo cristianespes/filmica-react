@@ -14,6 +14,12 @@ class FilmList extends Component {
   state = { films: [], loading: true }
 
   async componentDidMount() {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+      this.setState({user: user});
+    }
+    
     /*try {
       const response = await fetch(URL_DISCOVER);
       const { results } = await response.json();
@@ -52,7 +58,7 @@ class FilmList extends Component {
   }
 
   render() {
-    const { films, loading, error } = this.state;
+    const { user, films, loading, error } = this.state;
 
     if (error) return <Error />
     if (loading) return <Loading />
@@ -61,7 +67,11 @@ class FilmList extends Component {
       <Showcase keyFn={item => item.id} items={films} render={film => 
         <Link to={`/detail/${film.id}`}>
           <Film details={film} >
+          {
+            user &&
             <button onClick={() => this.addFavourite(film.id)}>Add to favourite</button>
+          }
+            
           </ Film>
         </Link>
       }/>
@@ -80,10 +90,12 @@ class FilmList extends Component {
   }
 
   addFavourite = filmID => {
-    const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
+    const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
+    const favouritesUser = favourites[this.state.user.login.uuid] || [];
 
-    if (!favourites.includes(filmID)) {
-      favourites.push(filmID);
+    if (!favouritesUser.includes(filmID)) {
+      favouritesUser.push(filmID);
+      favourites[this.state.user.login.uuid] = favouritesUser;
       localStorage.setItem('favourites', JSON.stringify(favourites));
     }
   }

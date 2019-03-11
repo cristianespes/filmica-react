@@ -11,9 +11,15 @@ const URL_TRENDING = 'https://api.themoviedb.org/3/trending/movie/week?api_key=e
 const URL_SEARCH = 'https://api.themoviedb.org/3/search/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&page=1&include_adult=false&query=';
 
 class Searching extends Component {
-  state = { films: [] }
+  state = { films: [], loading: true }
 
   async componentDidMount() {
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    if (user) {
+      this.setState({user: user});
+    }
+
     try {
       const response = await fetch(URL_TRENDING);
       const { results } = await response.json();
@@ -26,7 +32,7 @@ class Searching extends Component {
   }
 
   render() {
-    const { films, loading, error } = this.state;
+    const { user, films, loading, error } = this.state;
 
     if (error) return <Error />
     if (loading) return <Loading />
@@ -37,7 +43,10 @@ class Searching extends Component {
         <Showcase keyFn={item => item.id} items={films} render={film => 
             <Link to={`/detail/${film.id}`}>
                 <Film details={film} >
-                <button onClick={() => this.addFavourite(film.id)}>Add to favourite</button>
+                {
+                    user &&
+                    <button onClick={() => this.addFavourite(film.id)}>Add to favourite</button>
+                }
                 </ Film>
             </Link>
         }/>

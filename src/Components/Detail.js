@@ -15,14 +15,27 @@ class Detail extends React.Component{
     state = { loading: true, showingForm: false, movieId: this.props.match.params.movieId };
 
     async componentDidMount() {
-        const assessments = JSON.parse(localStorage.getItem('assessments')) || {};
-        this.setState({ assessment: assessments[this.state.movieId] || ''});
+        const user = JSON.parse(localStorage.getItem('user'));
 
-        const favourites = JSON.parse(localStorage.getItem('favourites')) || [];
-        if (favourites.filter(id => id === this.state.movieId)) {
-            this.setState({isFavourite: true});
+        if (user) {
+            this.setState({user: user});
+
+            const assessments = JSON.parse(localStorage.getItem('assessments')) || {};
+            const film = assessments[`${this.state.movieId}`] || {};
+            const count = film['count'];
+            const total = film['total'];
+            const average = total / count;
+            console.log('average:' + average)
+            this.setState({ assessment: average || ''});
+
+            const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
+            const favouritesUser = favourites[user.login.uuid] || [];
+
+            if (favouritesUser.filter(id => id === this.state.movieId)) {
+                this.setState({isFavourite: true});
+            }
         }
-
+        
         try {
             const response = await fetch(URL_SEARCH_ID.replace('movie_id', this.state.movieId));
             const results = await response.json();
@@ -35,7 +48,7 @@ class Detail extends React.Component{
     }
 
     render() {
-        const { error, loading, film, assessment } = this.state;
+        const { user, error, loading, film, assessment } = this.state;
 
         if (error) return <Error />
         if (loading) return <Loading />
@@ -44,11 +57,13 @@ class Detail extends React.Component{
             <div className='detail'>
                 <Film details={film} />
                 {
-                    !this.state.isFavourite &&
+                    !this.state.isFavourite && user &&
                     <AddFavourite />
                 }
-                
-                <button onClick={this.showForm}>Add assessment</button>
+                {
+                    user &&
+                    <button onClick={this.showForm}>Add assessment</button>
+                }
                 {
                     this.state.showingForm &&
                     <AddAssessment onSubmit={this.addAssessment} onCancel={this.hideForm} />
@@ -62,9 +77,9 @@ class Detail extends React.Component{
                         <Data title='Release date' content={film.release_date}/>
                     </li>
                     {
-                        (parseInt(assessment) >= 0 && parseInt(assessment) <= 100) &&
+                        (parseFloat(assessment) >= 0.0 && parseFloat(assessment) <= 10.0) &&
                         <li key='assessment' className='dataList__data'>
-                            <Data title='Assessment' content={`${parseInt(assessment)/10}/10`}/>
+                            <Data title='Assessment' content={`${parseFloat(assessment)}/10`}/>
                         </li>
                     }
                     
@@ -81,15 +96,20 @@ class Detail extends React.Component{
         this.setState({showingForm: false});
     }
     addAssessment = (newAssessment) => {
+        const assessments = JSON.parse(localStorage.getItem('assessments')) || {};
+        const film = assessments[this.state.movieId] || {};
+        const count = film['count'] || 0;
+        const total = film['total'] || 0;
+        film['count'] = count + 1;
+        film['total'] = total + parseFloat(newAssessment);
+        assessments[this.state.movieId] = film;
+        localStorage.setItem('assessments', JSON.stringify(assessments));
+
         this.setState( previousState => ({
             ...previousState,
-            assessment: newAssessment
+            assessment: (film['total'] / film['count'])
         }));
         this.hideForm();
-
-        const assessments = JSON.parse(localStorage.getItem('assessments')) || {};
-        assessments[this.state.movieId] = newAssessment;
-        localStorage.setItem('assessments', JSON.stringify(assessments));
     }
 }
 

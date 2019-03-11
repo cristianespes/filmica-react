@@ -1,8 +1,6 @@
 import React from 'react';
 
 const USERS_URL = 'https://randomuser.me/api?seed=abc&results=100';
-const USER = 'angryostrich988';
-const PASSWORD = 'r2d2';
 
 class Login extends React.Component {
     state = {
@@ -11,8 +9,16 @@ class Login extends React.Component {
         password: '',
         error: false
     }
+
+    componentDidMount() {
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) this.setState({isLogged: true});
+    }
+
     render() {
-        const { user, password } = this.state;
+        const { isLogged, user, password } = this.state;
+
+        if (isLogged) return <div />
         return (
             <form onSubmit={this.login}>
                 <label>
@@ -58,10 +64,12 @@ class Login extends React.Component {
         this.setState({ busy: false });
 
         if (!foundUser) {
-        return this.setState({ loginError: true })
+            return this.setState({ loginError: true })
         }
 
-        this.props.onLogin(foundUser);
+        this.props.onSuccess(foundUser);
+
+        this.setState({isLogged: true});
     };
 
     checkLogin = (user, password) => {
@@ -84,4 +92,8 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+export default props =>
+    <Login onSuccess={storeLogin} />;
+
+const storeLogin = user =>
+    localStorage.setItem('user', JSON.stringify(user));

@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router';
 import FilmList from './FilmList';
 import Detail from './Detail';
 import Login from './Login';
-//<Login onLogin={console.table}/>
 import FavouriteList from './FavouriteList';
 import Searching from './Searching';
 
