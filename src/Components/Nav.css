@@ -1,6 +1,7 @@
 .menu{
     padding: 1em;
     display: inline-block;
+    width: 100%;
 }
 
 .menu__options{

@@ -7,12 +7,6 @@ import Loading from './Loading';
 import Error from './Error';
 import './FilmList.css';
 
-/*const FILMS = Array.from({ length: 100 }).map((_, index) => ({
-  id: index,
-  title: 'Película',
-  poster_path: 'http://placehold.it/125x200'
-}));*/
-
 const URL_DISCOVER = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1';
 const URL_DISCOVER_PAGING = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
 

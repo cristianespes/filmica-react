@@ -13,6 +13,9 @@ export default props =>
                 <NavLink className='menu__link' to='/favourites'>Favourites list</NavLink>
             </li>
             <li className='menu__option'>
+                <NavLink className='menu__link' to='/search'>Searching</NavLink>
+            </li>
+            <li className='menu__option'>
                 <NavLink className='menu__link' to='/login'>Login</NavLink>
             </li>
         </ul>
