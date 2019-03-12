@@ -1,4 +1,7 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
+
+import LoginContext from './LoginContext';
 
 const USERS_URL = 'https://randomuser.me/api?seed=abc&results=100';
 
@@ -93,7 +96,13 @@ class Login extends React.Component {
 }
 
 export default props =>
-    <Login onSuccess={storeLogin} />;
-
-const storeLogin = user =>
-    localStorage.setItem('user', JSON.stringify(user));
+<LoginContext.Consumer>
+    {
+        ({login, isLogged}) =>
+            isLogged ? 
+            <Redirect to='/' />
+            :
+            <Login onSuccess={login} />
+    }
+</LoginContext.Consumer>
+    

@@ -6,44 +6,14 @@ import Film from './Film';
 import Loading from './Loading';
 import Error from './Error';
 import './FilmList.css';
+import LoginContext from './LoginContext';
 
-const URL_DISCOVER = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1';
 const URL_DISCOVER_PAGING = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
 
 class FilmList extends Component {
   state = { films: [], loading: true }
 
   async componentDidMount() {
-    const user = JSON.parse(localStorage.getItem('user'));
-
-    if (user) {
-      this.setState({user: user});
-    }
-    
-    /*try {
-      const response = await fetch(URL_DISCOVER);
-      const { results } = await response.json();
-      this.setState({ films: results });
-    } catch(error) {
-      this.setState({ error: true });
-    } finally {
-      this.setState({ loading: false });
-    }*/
-
-    /*Array.from({ length: 10 }).map(async (_, index) => {
-      const response = await fetch(`${URL_DISCOVER_PAGING}${index + 1}`);
-      const { results } = await response.json();
-      this.addFilms(results);
-    });*/
-
-    /*const results = await Array.from({ length: 5 }).map(async (_, index) => {
-      const response = await fetch(`${URL_DISCOVER_PAGING}${index + 1}`);
-      const { results } = await response.json();
-      return results;
-    });
-
-    this.addFilms(results);*/
-
     try {
       for (var i = 0; i < 15; i++) {
           const response = await fetch(`${URL_DISCOVER_PAGING}${i + 1}`);
@@ -58,23 +28,27 @@ class FilmList extends Component {
   }
 
   render() {
-    const { user, films, loading, error } = this.state;
+    const { films, loading, error } = this.state;
 
     if (error) return <Error />
     if (loading) return <Loading />
 
     return (
-      <Showcase keyFn={item => item.id} items={films} render={film => 
-        <Link to={`/detail/${film.id}`}>
-          <Film details={film} >
-          {
-            user &&
-            <button onClick={() => this.addFavourite(film.id)}>Add to favourite</button>
-          }
-            
-          </ Film>
-        </Link>
-      }/>
+      <LoginContext.Consumer>
+        {
+          ({ isLogged }) =>
+          <Showcase keyFn={item => item.id} items={films} render={film => 
+            <Link to={`/detail/${film.id}`}>
+              <Film details={film} >
+              {
+                isLogged &&
+                <button onClick={() => this.addFavourite(film.id)}>Add to favourite</button>
+              }
+              </ Film>
+            </Link>
+          }/>
+        }
+      </LoginContext.Consumer>
     );
   }
 

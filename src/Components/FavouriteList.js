@@ -23,7 +23,7 @@ class FavouriteList extends Component {
 
     if (favourites.length === 0) {
         return this.setState({ hasFavourites: false });
-    } 
+    }
 
     try {
         favourites.map(async id => {
