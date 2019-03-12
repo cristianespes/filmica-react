@@ -29,7 +29,8 @@ export default class extends React.Component {
                 hasFavourites: Boolean(this.state.favourites),
                 login: this.login,
                 logout: this.logout,
-                addFavourite: this.addFavourite
+                addFavourite: this.addFavourite,
+                unfollow: this.unfollow
               }}>
                 <Nav />
                 <Routes />
@@ -53,6 +54,14 @@ export default class extends React.Component {
           favourites[userID] = favouritesUser;
           localStorage.setItem('favourites', JSON.stringify(favourites));
         }
-      }
+    }
+    unfollow = filmID => {
+        const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
+        const favouritesUser = favourites[this.state.user.login.uuid] || [];
+        const updatedFavourites = favouritesUser.filter(id => id !== filmID);
+        favourites[this.state.user.login.uuid] = updatedFavourites;
+        localStorage.setItem('favourites', JSON.stringify(favourites));
+        this.setState({favourites: updatedFavourites});
+    }
 }
     

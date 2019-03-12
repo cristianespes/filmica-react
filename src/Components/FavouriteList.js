@@ -7,6 +7,7 @@ import Loading from './Loading';
 import Error from './Error';
 import LoggedError from './LoggedError';
 import withFavourites from './withFavourites';
+import LoginContext from './LoginContext';
 
 const URL_SEARCH_ID = 'https://api.themoviedb.org/3/movie/movie_id?api_key=e68728e1e31dcda82f7b2b896f0c47be';
 
@@ -46,13 +47,18 @@ class FavouriteList extends Component {
     if (loading) return <Loading />
 
     return (
-      <Showcase keyFn={item => item.id} items={films} render={film => 
-        <Link to={`/detail/${film.id}`}>
-        <Film details={film} >
-            <button onClick={() => this.unfollow(film.id)}>Unfollow</button>
-        </ Film>
-      </Link>
-      }/>
+      <LoginContext.Consumer>
+        {
+          ({ unfollow }) =>
+          <Showcase keyFn={item => item.id} items={films} render={film => 
+            <Link to={`/detail/${film.id}`}>
+            <Film details={film} >
+                <button onClick={() => unfollow(film.id)}>Unfollow</button>
+            </ Film>
+          </Link>
+          }/>
+        }
+      </LoginContext.Consumer>
     );
   }
 
@@ -65,17 +71,6 @@ class FavouriteList extends Component {
     }
 
     this.setState(nextState);
-  }
-
-  unfollow = filmID => {
-    const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
-    const favouritesUser = favourites[this.state.user.login.uuid] || [];
-    const updatedFavourites = favouritesUser.filter(id => id !== filmID);
-    favourites[this.state.user.login.uuid] = updatedFavourites;
-    localStorage.setItem('favourites', JSON.stringify(favourites));
-
-    const updatedFilms = this.state.films.filter(film => film.id !== filmID);
-    this.setState({films: updatedFilms});
   }
 }
 
