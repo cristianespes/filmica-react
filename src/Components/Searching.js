@@ -35,7 +35,7 @@ class Searching extends Component {
     return (
       <LoginContext.Consumer>
         {
-          ({ user }) =>
+          ({ user, addFavourite }) =>
           <React.Fragment>
           <SearchBar render={ query => this.searchFilm(query) }/>
           <Showcase keyFn={item => item.id} items={films} render={film => 
@@ -43,7 +43,7 @@ class Searching extends Component {
                   <Film details={film} >
                   {
                       user &&
-                      <button onClick={() => this.addFavourite(film.id, user.login.uuid)}>Add to favourite</button>
+                      <button onClick={() => addFavourite(film.id, user.login.uuid)}>Add to favourite</button>
                   }
                   </ Film>
               </Link>
@@ -74,17 +74,6 @@ class Searching extends Component {
       this.setState({ error: true });
     } finally {
       this.setState({ loading: false });
-    }
-  }
-
-  addFavourite = (filmID, userID) => {
-    const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
-    const favouritesUser = favourites[userID] || [];
-
-    if (!favouritesUser.includes(filmID)) {
-      favouritesUser.push(filmID);
-      favourites[userID] = favouritesUser;
-      localStorage.setItem('favourites', JSON.stringify(favourites));
     }
   }
 }

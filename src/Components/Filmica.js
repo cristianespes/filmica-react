@@ -29,7 +29,7 @@ export default class extends React.Component {
                 hasFavourites: Boolean(this.state.favourites),
                 login: this.login,
                 logout: this.logout,
-                addPost: this.addPost
+                addFavourite: this.addFavourite
               }}>
                 <Nav />
                 <Routes />
@@ -44,5 +44,15 @@ export default class extends React.Component {
         this.setState({ user: null });
         localStorage.removeItem('user');
     }
+    addFavourite = (filmID, userID) => {
+        const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
+        const favouritesUser = favourites[userID] || [];
+    
+        if (!favouritesUser.includes(filmID)) {
+          favouritesUser.push(filmID);
+          favourites[userID] = favouritesUser;
+          localStorage.setItem('favourites', JSON.stringify(favourites));
+        }
+      }
 }
     
