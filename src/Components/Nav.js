@@ -18,5 +18,11 @@ export default props =>
             <li className='menu__option'>
                 <NavLink className='menu__link' to='/login'>Login</NavLink>
             </li>
+            <li className='menu__option' onClick={logout}>
+                Logut
+            </li>
         </ul>
     </nav>
+
+const logout = () =>
+    localStorage.removeItem('user');

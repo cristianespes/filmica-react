@@ -13,13 +13,13 @@ class FavouriteList extends Component {
   state = { films: [], loading: true, hasFavourites: true };
 
   async componentDidMount() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const loggedUser = JSON.parse(localStorage.getItem('user'));
 
-    if (!user) return this.setState({isNotLogged: true});
+    if (!loggedUser) return this.setState({isNotLogged: true});
 
     const favourites = (
       JSON.parse(localStorage.getItem('favourites')) || {}
-    )[user.login.uuid] || [];
+    )[loggedUser.login.uuid] || [];
 
     if (favourites.length === 0) {
         return this.setState({ hasFavourites: false });
@@ -34,7 +34,7 @@ class FavouriteList extends Component {
       } catch(error) {
         this.setState({ error: true });
       } finally {
-        this.setState({ loading: false, user: user });
+        this.setState({ loading: false, user: loggedUser });
       }
   }
 

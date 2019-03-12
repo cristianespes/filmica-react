@@ -23,3 +23,7 @@
 .menu__link.active {
     color: black;
 }
+
+.menu__option::last-children {
+    flex: 1;
+}
