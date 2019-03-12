@@ -54,6 +54,7 @@ export default class extends React.Component {
           favourites[userID] = favouritesUser;
           localStorage.setItem('favourites', JSON.stringify(favourites));
         }
+        this.setState({favourites: favouritesUser});
     }
     unfollow = filmID => {
         const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
