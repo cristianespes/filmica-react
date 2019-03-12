@@ -8,12 +8,25 @@ export default class extends React.Component {
         user: JSON.parse(localStorage.getItem('user'))
     }
 
+    componentDidMount() {
+        const { user } =  this.state;
+        
+        if (user) {
+            const userFav = (
+                JSON.parse(localStorage.getItem('favourites')) || {}
+              )[user.login.uuid];
+            
+            this.setState({ favourites: userFav });
+        }
+    }
+
     render() {
         return (
             <LoginContext.Provider value={{
-                isLogged: Boolean(this.state.user),
                 user: this.state.user,
-                posts: this.state.posts,
+                isLogged: Boolean(this.state.user),
+                favourites: this.state.favourites,
+                hasFavourites: Boolean(this.state.favourites),
                 login: this.login,
                 logout: this.logout,
                 addPost: this.addPost
