@@ -36,13 +36,13 @@ class FilmList extends Component {
     return (
       <LoginContext.Consumer>
         {
-          ({ isLogged }) =>
+          ({ isLogged, user }) =>
           <Showcase keyFn={item => item.id} items={films} render={film => 
             <Link to={`/detail/${film.id}`}>
               <Film details={film} >
               {
                 isLogged &&
-                <button onClick={() => this.addFavourite(film.id)}>Add to favourite</button>
+                <button onClick={() => this.addFavourite(film.id, user.login.uuid)}>Add to favourite</button>
               }
               </ Film>
             </Link>
@@ -63,13 +63,13 @@ class FilmList extends Component {
     this.setState(nextState);
   }
 
-  addFavourite = filmID => {
+  addFavourite = (filmID, userID) => {
     const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
-    const favouritesUser = favourites[this.state.user.login.uuid] || [];
+    const favouritesUser = favourites[userID] || [];
 
     if (!favouritesUser.includes(filmID)) {
       favouritesUser.push(filmID);
-      favourites[this.state.user.login.uuid] = favouritesUser;
+      favourites[userID] = favouritesUser;
       localStorage.setItem('favourites', JSON.stringify(favourites));
     }
   }

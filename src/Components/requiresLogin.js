@@ -4,12 +4,11 @@ import { Redirect } from 'react-router-dom'
 import LoginContext from './LoginContext'
 
 const requiresLogin = loginUrl =>
-  // HOC
   Component => props =>
     <LoginContext.Consumer>
       {
-        ({ logged }) =>
-          logged
+        ({ isLogged }) =>
+          isLogged
             ? <Component {...props} />
             : <Redirect to={loginUrl} />
       }

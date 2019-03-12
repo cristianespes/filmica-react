@@ -6,6 +6,7 @@ import Film from './Film';
 import Loading from './Loading';
 import Error from './Error';
 import LoggedError from './LoggedError';
+import withFavourites from './withFavourites';
 
 const URL_SEARCH_ID = 'https://api.themoviedb.org/3/movie/movie_id?api_key=e68728e1e31dcda82f7b2b896f0c47be';
 
@@ -13,15 +14,13 @@ class FavouriteList extends Component {
   state = { films: [], loading: true, hasFavourites: true };
 
   async componentDidMount() {
-    const loggedUser = JSON.parse(localStorage.getItem('user'));
+    const loggedUser = this.props.user;
 
     if (!loggedUser) return this.setState({isNotLogged: true});
 
-    const favourites = (
-      JSON.parse(localStorage.getItem('favourites')) || {}
-    )[loggedUser.login.uuid] || [];
+    const favourites = this.props.favourites;
 
-    if (favourites.length === 0) {
+    if (!favourites) {
         return this.setState({ hasFavourites: false });
     }
 
@@ -80,4 +79,4 @@ class FavouriteList extends Component {
   }
 }
 
-export default FavouriteList;
+export default withFavourites(FavouriteList);
