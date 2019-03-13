@@ -42,7 +42,10 @@ class FilmList extends Component {
               <Film details={film} >
               {
                 isLogged &&
-                <button onClick={() => addFavourite(film.id, user.login.uuid)}>Add to favourite</button>
+                <button onClick={event => {
+                  event.preventDefault()
+                  addFavourite(film.id, user.login.uuid)
+                }}>Add to favourite</button>
               }
               </ Film>
             </Link>

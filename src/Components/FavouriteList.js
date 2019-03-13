@@ -53,7 +53,10 @@ class FavouriteList extends Component {
           <Showcase keyFn={item => item.id} items={films} render={film => 
             <Link to={`/detail/${film.id}`}>
             <Film details={film} >
-                <button onClick={() => unfollow(film.id)}>Unfollow</button>
+                <button onClick={event =>{
+                  event.preventDefault()
+                  unfollow(film.id)
+                }}>Unfollow</button>
             </ Film>
           </Link>
           }/>
