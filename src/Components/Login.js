@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 
 import LoginContext from './LoginContext';
+import './Login.css';
 
 const USERS_URL = 'https://randomuser.me/api?seed=abc&results=100';
 
@@ -23,7 +24,7 @@ class Login extends React.Component {
 
         if (name) return <p>Hola {name}</p>
         return (
-            <form onSubmit={this.login}>
+            <form onSubmit={this.login} className='login'>
                 <label>
                     User:&nbsp;
                     <input name='user' value={user} onChange={this.update} />
