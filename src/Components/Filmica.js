@@ -3,6 +3,8 @@ import Routes from './Routes';
 import Nav from './Nav';
 import LoginContext from './LoginContext';
 
+const USERS_URL = 'https://randomuser.me/api?seed=abc&results=100';
+
 export default class extends React.Component {
     state = {
         user: JSON.parse(localStorage.getItem('user'))
@@ -37,9 +39,33 @@ export default class extends React.Component {
             </LoginContext.Provider>
         )
     }
-    login = user => {
-        localStorage.setItem('user', JSON.stringify(user))
-        this.setState({ user })
+    _attemptLogin = async ({ user, password }) => {
+        const users = await this._findUsers();
+        return users.find(candidate =>
+            candidate.login.username === user &&
+            candidate.login.password === password
+        );
+    }
+    _findUsers = async () => {
+        /*try {
+            const response = await fetch(USERS_URL)
+            const { results: users } = await response.json()
+            return users
+        } catch (error) {
+
+        }*/
+        const response = await fetch(USERS_URL)
+        const { results: users } = await response.json()
+        return users
+    }
+    login = async credentials => {
+        const user = await this._attemptLogin(credentials);
+        if (!user) {
+            throw new Error('No user found');
+        }
+        localStorage.setItem('user', JSON.stringify(user));
+        this.setState({ user });
+        return user;
     }
     logout = () => {
         this.setState({ user: null });

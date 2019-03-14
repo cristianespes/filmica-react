@@ -4,8 +4,6 @@ import { Redirect } from 'react-router-dom';
 import LoginContext from './LoginContext';
 import './Login.css';
 
-const USERS_URL = 'https://randomuser.me/api?seed=abc&results=100';
-
 class Login extends React.Component {
     state = {
         hasChanges: false,
@@ -14,15 +12,9 @@ class Login extends React.Component {
         error: false
     }
 
-    componentDidMount() {
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (user) this.setState({name: `${user.name.first} ${user.name.last}`});
-    }
-
     render() {
-        const { name, user, password } = this.state;
+        const { user, password } = this.state;
 
-        if (name) return <p>Hola {name}</p>
         return (
             <form onSubmit={this.login} className='login'>
                 <label>
@@ -45,6 +37,7 @@ class Login extends React.Component {
             </form>
         )
     }
+    
     update = event => 
         this.setState({
             error: false,
@@ -63,17 +56,13 @@ class Login extends React.Component {
 
         this.setState({ busy: true });
 
-        const foundUser = await this.validUser(user, password);
-
-        this.setState({ busy: false });
-
-        if (!foundUser) {
-            return this.setState({ loginError: true })
+        try {
+            void await this.props.onLogin({user, password});
+        } catch (loginError) {
+            return this.setState({ loginError: true, busy: false })
+        } finally {
+            //this.setState({ busy: false });
         }
-
-        this.props.onSuccess(foundUser);
-
-        this.setState({name: `${foundUser.name.first} ${foundUser.name.last}`});
     };
 
     checkLogin = (user, password) => {
@@ -87,23 +76,22 @@ class Login extends React.Component {
     }
 
     validUser = async (user, password) => {
-        const response = await fetch(USERS_URL)
-        const { results: users } = await response.json()
+        const users = await this.props.findUsers();
         return users.find(candidate =>
             candidate.login.username === user &&
             candidate.login.password === password
-        )
+        );
     }
 }
 
 export default props =>
 <LoginContext.Consumer>
     {
-        ({login, isLogged}) =>
+        ({ login, isLogged }) =>
             isLogged ? 
             <Redirect to='/' />
             :
-            <Login onSuccess={login} />
+            <Login onLogin={login} />
     }
 </LoginContext.Consumer>
     
