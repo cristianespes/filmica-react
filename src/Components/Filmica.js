@@ -4,6 +4,7 @@ import Nav from './Nav';
 import LoginContext from './LoginContext';
 
 const USERS_URL = 'https://randomuser.me/api?seed=abc&results=100';
+const URL_SEARCH_ID = 'https://api.themoviedb.org/3/movie/movie_id?api_key=e68728e1e31dcda82f7b2b896f0c47be';
 
 export default class extends React.Component {
     state = {
@@ -29,6 +30,7 @@ export default class extends React.Component {
                 isLogged: Boolean(this.state.user),
                 favourites: this.state.favourites,
                 hasFavourites: Boolean(this.state.favourites),
+                getFavourite: this.getFavourite,
                 login: this.login,
                 logout: this.logout,
                 addFavourite: this.addFavourite,
@@ -38,6 +40,13 @@ export default class extends React.Component {
                 <Routes />
             </LoginContext.Provider>
         )
+    }
+    getFavourite = async id => {
+        debugger
+        const response = await fetch(URL_SEARCH_ID.replace('movie_id', id));
+        const results = await response.json();
+        debugger
+        return results;
     }
     _attemptLogin = async ({ user, password }) => {
         const users = await this._findUsers();

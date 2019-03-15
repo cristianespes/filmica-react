@@ -4,7 +4,7 @@ import LoginContext from './LoginContext'
 export default Component => props =>
   <LoginContext.Consumer>
     {
-      ({ user, favourites }) =>
-        <Component {...props} user={user} favourites={favourites} />
+      ({ user, favourites, getFavourite }) =>
+        <Component {...props} user={user} favourites={favourites} getFilm={getFavourite} />
     }
   </LoginContext.Consumer>

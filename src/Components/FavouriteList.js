@@ -9,8 +9,6 @@ import LoggedError from './LoggedError';
 import withFavourites from './withFavourites';
 import LoginContext from './LoginContext';
 
-const URL_SEARCH_ID = 'https://api.themoviedb.org/3/movie/movie_id?api_key=e68728e1e31dcda82f7b2b896f0c47be';
-
 class FavouriteList extends Component {
   state = { films: [], loading: true, hasFavourites: true };
 
@@ -18,7 +16,7 @@ class FavouriteList extends Component {
     const loggedUser = this.props.user;
 
     if (!loggedUser) return this.setState({isNotLogged: true});
-
+    
     const favourites = this.props.favourites;
 
     if (!favourites) {
@@ -27,9 +25,10 @@ class FavouriteList extends Component {
 
     try {
         favourites.map(async id => {
-            const response = await fetch(URL_SEARCH_ID.replace('movie_id', id));
-            const results = await response.json();
-            this.addFilms(results);
+            const film = await this.props.getFilm(id);
+            debugger
+            console.log(JSON.stringify(film))
+            this.addFilms(film);
         });
       } catch(error) {
         this.setState({ error: true });
