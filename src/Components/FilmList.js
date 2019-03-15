@@ -8,17 +8,14 @@ import Error from './Error';
 import './FilmList.css';
 import LoginContext from './LoginContext';
 
-const URL_DISCOVER_PAGING = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
-
 class FilmList extends Component {
   state = { films: [], loading: true }
 
   async componentDidMount() {
     try {
       for (var i = 0; i < 15; i++) {
-          const response = await fetch(`${URL_DISCOVER_PAGING}${i + 1}`);
-          const { results } = await response.json();
-          this.addFilms(results);
+          const films = await this.props.getDiscover(i + 1);
+          this.addFilms(films);
        }
     } catch(error) {
       this.setState({ error: true });
@@ -67,4 +64,10 @@ class FilmList extends Component {
   }
 }
 
-export default FilmList;
+export default props =>
+<LoginContext.Consumer>
+    {
+        ({ getDiscover }) =>
+            <FilmList getDiscover={ getDiscover } />
+    }
+</LoginContext.Consumer>

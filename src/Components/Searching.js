@@ -8,17 +8,13 @@ import Loading from './Loading';
 import Error from './Error';
 import LoginContext from './LoginContext';
 
-const URL_TRENDING = 'https://api.themoviedb.org/3/trending/movie/week?api_key=e68728e1e31dcda82f7b2b896f0c47be';
-const URL_SEARCH = 'https://api.themoviedb.org/3/search/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&page=1&include_adult=false&query=';
-
 class Searching extends Component {
   state = { films: [], loading: true }
 
   async componentDidMount() {
     try {
-      const response = await fetch(URL_TRENDING);
-      const { results } = await response.json();
-      this.setState({ films: results });
+      const films = await this.props.getTrending();
+      this.setState({ films: films });
     } catch(error) {
       this.setState({ error: true });
     } finally {
@@ -67,9 +63,8 @@ class Searching extends Component {
   searchFilm = async query => {
     this.setState({ loading: false });
     try {
-        const response = await fetch(`${URL_SEARCH}${query}`);
-        const { results } = await response.json();
-        this.addFilms(results);
+        const films = await this.props.getSearch(query);
+        this.addFilms(films);
     } catch(error) {
       this.setState({ error: true });
     } finally {
@@ -78,4 +73,10 @@ class Searching extends Component {
   }
 }
 
-export default Searching;
+export default props =>
+<LoginContext.Consumer>
+    {
+        ({ getTrending, getSearch }) =>
+            <Searching getTrending={ getTrending } getSearch={ getSearch } />
+    }
+</LoginContext.Consumer>

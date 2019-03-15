@@ -26,8 +26,6 @@ class FavouriteList extends Component {
     try {
         favourites.map(async id => {
             const film = await this.props.getFilm(id);
-            debugger
-            console.log(JSON.stringify(film))
             this.addFilms(film);
         });
       } catch(error) {

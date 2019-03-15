@@ -4,7 +4,10 @@ import Nav from './Nav';
 import LoginContext from './LoginContext';
 
 const USERS_URL = 'https://randomuser.me/api?seed=abc&results=100';
+const URL_DISCOVER_PAGING = 'https://api.themoviedb.org/3/discover/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=';
 const URL_SEARCH_ID = 'https://api.themoviedb.org/3/movie/movie_id?api_key=e68728e1e31dcda82f7b2b896f0c47be';
+const URL_TRENDING = 'https://api.themoviedb.org/3/trending/movie/week?api_key=e68728e1e31dcda82f7b2b896f0c47be';
+const URL_SEARCH = 'https://api.themoviedb.org/3/search/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&page=1&include_adult=false&query=';
 
 export default class extends React.Component {
     state = {
@@ -28,9 +31,12 @@ export default class extends React.Component {
             <LoginContext.Provider value={{
                 user: this.state.user,
                 isLogged: Boolean(this.state.user),
+                getDiscover: this.getDiscover,
                 favourites: this.state.favourites,
                 hasFavourites: Boolean(this.state.favourites),
                 getFavourite: this.getFavourite,
+                getTrending: this.getTrending,
+                getSearch: this.getSearch,
                 login: this.login,
                 logout: this.logout,
                 addFavourite: this.addFavourite,
@@ -41,11 +47,24 @@ export default class extends React.Component {
             </LoginContext.Provider>
         )
     }
+    getDiscover = async page => {
+        const response = await fetch(`${URL_DISCOVER_PAGING}${page}`);
+        const { results } = await response.json();
+        return results;
+    }
+    getTrending = async () => {
+        const response = await fetch(URL_TRENDING);
+        const { results } = await response.json();
+        return results;
+    }
+    getSearch = async query => {
+        const response = await fetch(`${URL_SEARCH}${query}`);
+        const { results } = await response.json();
+        return results;
+    }
     getFavourite = async id => {
-        debugger
         const response = await fetch(URL_SEARCH_ID.replace('movie_id', id));
         const results = await response.json();
-        debugger
         return results;
     }
     _attemptLogin = async ({ user, password }) => {
