@@ -13,10 +13,8 @@ class FilmList extends Component {
 
   async componentDidMount() {
     try {
-      for (var i = 0; i < 15; i++) {
-          const films = await this.props.getDiscover(i + 1);
-          this.addFilms(films);
-       }
+      const films = await this.props.getDiscover();
+      this.addFilms(films);
     } catch(error) {
       this.setState({ error: true });
     } finally {

@@ -47,10 +47,16 @@ export default class extends React.Component {
             </LoginContext.Provider>
         )
     }
-    getDiscover = async page => {
-        const response = await fetch(`${URL_DISCOVER_PAGING}${page}`);
-        const { results } = await response.json();
-        return results;
+    getDiscover = async () => {
+        var films = []
+
+        for (var i = 0; i < 15; i++) {
+            const response = await fetch(`${URL_DISCOVER_PAGING}${i + 1}`);
+            const { results } = await response.json();
+            films = films.concat(results);
+        }
+
+        return films;
     }
     getTrending = async () => {
         const response = await fetch(URL_TRENDING);
