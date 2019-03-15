@@ -17,15 +17,15 @@ class Login extends React.Component {
 
         return (
             <form onSubmit={this.login} className='login'>
-                <label>
+                <label className='login_field'>
                     User:&nbsp;
                     <input name='user' value={user} onChange={this.update} />
                 </label>
-                <label>
+                <label className='login_field'>
                     Password:&nbsp;
                     <input name='password' value={password} type='password' onChange={this.update} />
                 </label>
-                <input type='submit' disabled={ this.state.busy || !this.state.hasChanges } value='Login'/>
+                <input className='login_button' type='submit' disabled={ this.state.busy || !this.state.hasChanges } value='Login'/>
                 {
                     this.state.error &&
                     <p>User or password are required</p>
