@@ -15,7 +15,7 @@
     text-decoration: none;
     font-size: 16px;
     cursor: pointer;
-    margin: 2em 0 0 0;
+    margin: 1em 0 0 0;
 }
 
 .dataList{
@@ -26,6 +26,6 @@
 }
 
 .dataList__data{
-    border-bottom: solid 1px lightgray;
+    border-bottom: solid 1px gray;
     color: white;
 }

@@ -6,6 +6,7 @@ import AddAssessment from './AddAssessment';
 import AddFavourite from './AddFavourite';
 import Loading from './Loading';
 import Error from './Error';
+import DetailFilm from './DetailFilm';
 
 import './Detail.css';
 
@@ -55,7 +56,7 @@ class Detail extends React.Component{
 
         return (
             <div className='detail'>
-                <Film details={film} />
+                <DetailFilm details={film} />
                 {
                     !this.state.isFavourite && user &&
                     <AddFavourite />
