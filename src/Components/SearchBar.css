@@ -1,11 +1,11 @@
 .search{
-    padding: 1em;
+    padding: .5em;
     text-align: center;
-    background-color: #7d3f6d;
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .search__label{
-    padding: 0 .5em;
     font-weight: bold;
     color: white !important;
     font-size: 1.2em;
