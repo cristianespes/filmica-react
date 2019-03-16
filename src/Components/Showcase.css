@@ -2,13 +2,20 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, 14em);
     grid-gap: .5em;
-    padding: 0;
-    margin: 20px;
+    padding: 10px;
+    margin: 0;
     list-style: none;
     justify-content: center;
+    background-color: #7d3f6d;
 }
 .showcase__item {
     border: solid 1px lightgray;
     border-radius: 2px;
     padding: 1em;
+    text-decoration: none;
+    background-color: #FFFFFF;
+}
+
+a {
+    text-decoration: none;
 }
