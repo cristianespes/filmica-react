@@ -7,6 +7,7 @@ import SearchBar from './SearchBar';
 import Loading from './Loading';
 import Error from './Error';
 import LoginContext from './LoginContext';
+import './Searching.css';
 
 class Searching extends Component {
   state = { films: [], loading: true }
@@ -39,7 +40,7 @@ class Searching extends Component {
                   <Film details={film} >
                   {
                     isLogged &&
-                    <button onClick={event => {
+                    <button className='favouriteList__addBtn' onClick={event => {
                       event.preventDefault()
                       addFavourite(film.id, user.login.uuid)
                     }}>Add to favourite</button>

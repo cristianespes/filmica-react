@@ -18,11 +18,7 @@ export default class extends React.Component {
         const { user } =  this.state;
         
         if (user) {
-            const userFav = (
-                JSON.parse(localStorage.getItem('favourites')) || {}
-              )[user.login.uuid];
-            
-            this.setState({ favourites: userFav });
+            this._checkFavourites(user.login.uuid);
         }
     }
 
@@ -68,6 +64,12 @@ export default class extends React.Component {
         const { results } = await response.json();
         return results;
     }
+    _checkFavourites = userId => {
+        const userFav = (
+            JSON.parse(localStorage.getItem('favourites')) || {}
+          )[userId];
+        this.setState({ favourites: userFav });
+    }
     getFavourite = async id => {
         const response = await fetch(URL_SEARCH_ID.replace('movie_id', id));
         const results = await response.json();
@@ -98,6 +100,8 @@ export default class extends React.Component {
             throw new Error('No user found');
         }
         localStorage.setItem('user', JSON.stringify(user));
+        // TODO: Añadir favourites
+        this._checkFavourites(user.login.uuid);
         this.setState({ user });
         return user;
     }

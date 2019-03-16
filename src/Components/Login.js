@@ -66,21 +66,12 @@ class Login extends React.Component {
     };
 
     checkLogin = (user, password) => {
-        // TODO: VALIDAR CADA CAMPO POR SEPARADO
         if (user.trim().length === 0 || password.trim().length === 0) {
             this.setState({ error: true, hasChanges: false });
             return false;
         }
 
         return true;
-    }
-
-    validUser = async (user, password) => {
-        const users = await this.props.findUsers();
-        return users.find(candidate =>
-            candidate.login.username === user &&
-            candidate.login.password === password
-        );
     }
 }
 

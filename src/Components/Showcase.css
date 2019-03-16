@@ -1,16 +1,17 @@
 .showcase {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 14em);
+    grid-template-columns: repeat(auto-fit, 12em);
     grid-gap: .5em;
     padding: 10px;
     margin: 0;
+    height: 100%;
     list-style: none;
     justify-content: center;
     background-color: #7d3f6d;
 }
 .showcase__item {
     border: solid 1px lightgray;
-    border-radius: 2px;
+    border-radius: 3%;
     padding: 1em;
     text-decoration: none;
     background-color: #FFFFFF;

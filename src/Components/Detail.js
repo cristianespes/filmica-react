@@ -61,8 +61,8 @@ class Detail extends React.Component{
                     <AddFavourite />
                 }
                 {
-                    user &&
-                    <button onClick={this.showForm}>Add assessment</button>
+                    user && !this.state.showingForm &&
+                    <button className='detail__addAssessmentBtn' onClick={this.showForm}>Add assessment</button>
                 }
                 {
                     this.state.showingForm &&

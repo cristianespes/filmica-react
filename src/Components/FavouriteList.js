@@ -8,6 +8,7 @@ import Error from './Error';
 import LoggedError from './LoggedError';
 import withFavourites from './withFavourites';
 import LoginContext from './LoginContext';
+import './FavouriteList.css';
 
 class FavouriteList extends Component {
   state = { films: [], loading: true, hasFavourites: true };
@@ -39,7 +40,7 @@ class FavouriteList extends Component {
     const { isNotLogged, films, loading, error, hasFavourites } = this.state;
 
     if (isNotLogged) return <LoggedError />
-    if (!hasFavourites) return <p>No favourite movies yet</p>
+    if (!hasFavourites) return <p className='favouriteListError'>No favourite movies yet</p>
     if (error) return <Error />
     if (loading) return <Loading />
 
@@ -50,7 +51,7 @@ class FavouriteList extends Component {
           <Showcase keyFn={item => item.id} items={films} render={film => 
             <Link to={`/detail/${film.id}`}>
             <Film details={film} >
-                <button onClick={event =>{
+                <button className='favouriteList__unfollowBtn' onClick={event =>{
                   event.preventDefault()
                   unfollow(film.id)
                 }}>Unfollow</button>

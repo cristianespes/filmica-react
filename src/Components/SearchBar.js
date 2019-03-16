@@ -15,12 +15,12 @@ class SearchBar extends React.Component {
                 <label className='search__label'>
                     Search movie:&nbsp;
                     <input className='search__query' name='query' value={query} onChange={this.update} />
-                </label>
-                <input className='search__button' type='submit' disabled={ !this.state.hasChanges } value='Search'/>
+                    <input className='search__button' type='submit' disabled={ !this.state.hasChanges } value='Search'/>
                 {
                     this.state.error &&
                     <p>Search must contain 3 or more characters.</p>
                 }
+                </label>
             </form>
         )
     }

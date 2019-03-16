@@ -1,8 +1,26 @@
 .detail{
+    margin: 0;
+    padding: 10px 20px;
+    background-color: #7d3f6d;
+    text-align: center;
+    height: 100%;
+}
 
+.detail__addAssessmentBtn{
+    background-color: #5D1049;
+    border-radius: 10px;
+    border-color: 1px gray;
+    color: white;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 2em 0 0 0;
 }
 
 .dataList{
+    text-align: left;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -10,4 +28,5 @@
 
 .dataList__data{
     border-bottom: solid 1px lightgray;
+    color: white;
 }
