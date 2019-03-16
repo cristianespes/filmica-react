@@ -1,14 +1,19 @@
 .login{
     text-align: center;
-    margin: 1em;
+    margin: 1em auto;
+    width: 300px;
 }
 
 .login_field{
     margin: 1em;
+    display:block;
+    display: flex;
 }
 
 .login_input{
     border-radius: 4px;
+    flex: 1;
+    margin-left: 5px;
 }
 
 .login_button{
@@ -21,4 +26,5 @@
     text-decoration: none;
     font-size: 14px;
     cursor: pointer;
+    width: 90%;
 }

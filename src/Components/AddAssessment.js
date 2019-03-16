@@ -1,19 +1,20 @@
 import React from 'react';
 
+import './AddAssessment.css';
 
 class AddAssessment extends React.Component {
     state = { assessment: '' }
     render() {
         const { assessment } = this.state;
         return (
-            <form onSubmit={event => event.preventDefault()}>
-                <p><b>Add assessment:</b></p>
-                <label>Assessment:
-                    <input name='assessment' value={assessment} onChange={this.setAssessment} type="number"/>
+            <form className='form' onSubmit={event => event.preventDefault()}>
+                <p className='form__title'><b>Add assessment:</b></p>
+                <label className='form__label'>Assessment:
+                    <input className='form__input' name='assessment' value={assessment} onChange={this.setAssessment} type="number"/>
                     /10</label>
                 <div>
-                    <button onClick={this.assesst}>Assess</button>
-                    <button onClick={this.props.onCancel}>Cancel</button>
+                    <button className='form__btn' onClick={this.assesst}>Assess</button>
+                    <button className='form__btn' onClick={this.props.onCancel}>Cancel</button>
                 </div>
             </form>
         )
