@@ -19,11 +19,11 @@ class Login extends React.Component {
             <form onSubmit={this.login} className='login'>
                 <label className='login_field'>
                     User:&nbsp;
-                    <input name='user' value={user} onChange={this.update} />
+                    <input className='login_input' name='user' value={user} onChange={this.update} />
                 </label>
                 <label className='login_field'>
                     Password:&nbsp;
-                    <input name='password' value={password} type='password' onChange={this.update} />
+                    <input className='login_input' name='password' value={password} type='password' onChange={this.update} />
                 </label>
                 <input className='login_button' type='submit' disabled={ this.state.busy || !this.state.hasChanges } value='Login'/>
                 {
