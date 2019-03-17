@@ -94,7 +94,7 @@ Here you can search any movie that you want to know something about.
 
 http://localhost:3000/detail/MovieID
 
-This view shows the data of the movie: poster, backdrop, overview, release date and it allows you to add a rating note.
+This view shows the data of the movie: poster, backdrop, overview, release date, genres and it also allows you to add a rating note.
 
 -------------------------------------------------------------------------------
 
