@@ -31,16 +31,16 @@ class FilmList extends Component {
     return (
       <LoginContext.Consumer>
         {
-          ({ isLogged, user, addFavourite }) =>
+          ({ isLogged, user, addFavorite }) =>
           <Showcase keyFn={item => item.id} items={films} render={film => 
             <Link to={`/detail/${film.id}`}>
               <Film details={film} >
               {
                 isLogged &&
-                <button className='favouriteList__addBtn' onClick={event => {
+                <button className='favoriteList__addBtn' onClick={event => {
                   event.preventDefault()
-                  addFavourite(film.id, user.login.uuid)
-                }}>Add to favourite</button>
+                  addFavorite(film.id, user.login.uuid)
+                }}>Add to favorite</button>
               }
               </ Film>
             </Link>

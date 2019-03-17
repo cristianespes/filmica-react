@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AddFavourite = props => 
+const AddFavorite = props => 
     <div>
         Añadir a favoritos:
         <button>
@@ -8,4 +8,4 @@ const AddFavourite = props =>
         </button>
     </div>
 
-export default AddFavourite;
+export default AddFavorite;

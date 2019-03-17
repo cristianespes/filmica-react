@@ -1,68 +1,111 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Filmica - React
 
-## Available Scripts
+-------------------------------------------------------------------------------
 
-In the project directory, you can run:
+## Installation
 
-### `npm start`
+Install dependencies with:
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```shell
+npm install
+```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+-------------------------------------------------------------------------------
 
-### `npm test`
+## Start the APP
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To start the application in production mode use:
 
-### `npm run build`
+### Development
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To start the application in development mode use:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```shell
+npm start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Note: This should open a new tab in your browser pointing to Base URL**
 
-### `npm run eject`
+### Production
+
+To start the application in production mode use:
+
+```shell
+npm run build
+```
+
+### Eject
+
+To eject the application you can use:
+
+```shell
+npm run eject
+```
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
 If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+-------------------------------------------------------------------------------
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## APP Documentation
 
-## Learn More
+### Base URL
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+To go to the base URL, you can use:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+[http://localhost:3000/](http://localhost:3000/)
 
-### Code Splitting
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### User Login
 
-### Analyzing the Bundle Size
+[http://localhost:3000/login](http://localhost:3000/login)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+You can login with any of the following users. When you are logged, you can add movies to favorite list and add rating to each movie from detail view.
 
-### Making a Progressive Web App
+[https://randomuser.me/api?seed=abc&results=100](https://randomuser.me/api?seed=abc&results=100)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+All you need is to introduce the login.username and login.passworld.
 
-### Advanced Configuration
+**Note: Anyway, if you don´t login, you will be able to continue using the app**
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
 
-### Deployment
+### Film list
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+[http://localhost:3000](http://localhost:3000)
 
-### `npm run build` fails to minify
+Here is shown a list of movies to discover.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+### Favorite list
+
+[http://localhost:3000/favorites](http://localhost:3000/favorites)
+
+All movies saved as favorites by the logged user are shown here. If you aren't logged or you don't have favorites movies, this list will appear empty.
+
+
+### Searching
+
+[http://localhost:3000/search](http://localhost:3000/search)
+
+Here you can search any movie that you want to know something about.
+
+
+### Detail view of the movie
+
+http://localhost:3000/detail/MovieID
+
+This view shows the data of the movie: poster, backdrop, overview, release date and it allows you to add a rating note.
+
+-------------------------------------------------------------------------------
+
+## API - THE MOVIE DATABASE (TMDB)
+
+All movies shown in the application are provided by the API: [The Movie Database](https://www.themoviedb.org).
+
+-------------------------------------------------------------------------------
+
+## API - DESIGN
+
+Below is shown a design of what it should look like in your browser.
+
+![Filmica](screenshotFilmica.png?raw=true "Filmica")

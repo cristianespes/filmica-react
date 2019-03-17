@@ -12,7 +12,7 @@ export default props =>
                 <NavLink exact className='menu__link' to='/'>Film list</NavLink>
             </li>
             <li className='menu__option'>
-                <NavLink className='menu__link' to='/favourites'>Favourites list</NavLink>
+                <NavLink className='menu__link' to='/favorites'>Favorites list</NavLink>
             </li>
             <li className='menu__option'>
                 <NavLink className='menu__link' to='/search'>Searching</NavLink>

@@ -1,9 +1,9 @@
-.favouriteListError {
+.favoriteListError {
     text-align: center;
     color: white;
 }
 
-.favouriteList__unfollowBtn {
+.favoriteList__unfollowBtn {
     background-color: #7d3f6d;
     border-radius: 10px;
     border-color: 1px gray;

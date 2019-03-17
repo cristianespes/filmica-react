@@ -32,7 +32,7 @@ class Searching extends Component {
     return (
       <LoginContext.Consumer>
         {
-          ({ isLogged, user, addFavourite }) =>
+          ({ isLogged, user, addFavorite }) =>
           <React.Fragment>
           <SearchBar render={ query => this.searchFilm(query) }/>
           <Showcase keyFn={item => item.id} items={films} render={film => 
@@ -40,10 +40,10 @@ class Searching extends Component {
                   <Film details={film} >
                   {
                     isLogged &&
-                    <button className='favouriteList__addBtn' onClick={event => {
+                    <button className='favoriteList__addBtn' onClick={event => {
                       event.preventDefault()
-                      addFavourite(film.id, user.login.uuid)
-                    }}>Add to favourite</button>
+                      addFavorite(film.id, user.login.uuid)
+                    }}>Add to favorite</button>
                   }
                   </ Film>
               </Link>

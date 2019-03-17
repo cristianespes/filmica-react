@@ -3,7 +3,7 @@ import React from 'react';
 import Film from './Film';
 import Data from './Data';
 import AddAssessment from './AddAssessment';
-import AddFavourite from './AddFavourite';
+import AddFavorite from './AddFavorite';
 import Loading from './Loading';
 import Error from './Error';
 import DetailFilm from './DetailFilm';
@@ -29,11 +29,11 @@ class Detail extends React.Component{
             console.log('average:' + average)
             this.setState({ assessment: average || ''});
 
-            const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
-            const favouritesUser = favourites[user.login.uuid] || [];
+            const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
+            const favoritesUser = favorites[user.login.uuid] || [];
 
-            if (favouritesUser.filter(id => id === this.state.movieId)) {
-                this.setState({isFavourite: true});
+            if (favoritesUser.filter(id => id === this.state.movieId)) {
+                this.setState({isFavorite: true});
             }
         }
         
@@ -58,8 +58,8 @@ class Detail extends React.Component{
             <div className='detail'>
                 <DetailFilm details={film} />
                 {
-                    !this.state.isFavourite && user &&
-                    <AddFavourite />
+                    !this.state.isFavorite && user &&
+                    <AddFavorite />
                 }
                 {
                     user && !this.state.showingForm &&
@@ -80,7 +80,7 @@ class Detail extends React.Component{
                     {
                         (parseFloat(assessment) >= 0.0 && parseFloat(assessment) <= 10.0) &&
                         <li key='assessment' className='dataList__data'>
-                            <Data title='Assessment' content={`${parseFloat(assessment)}/10`}/>
+                            <Data title='Assessment' content={`${parseFloat(assessment).toFixed(0)}/10`}/>
                         </li>
                     }
                     

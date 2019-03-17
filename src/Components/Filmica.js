@@ -18,7 +18,7 @@ export default class extends React.Component {
         const { user } =  this.state;
         
         if (user) {
-            this._checkFavourites(user.login.uuid);
+            this._checkFavorites(user.login.uuid);
         }
     }
 
@@ -28,14 +28,14 @@ export default class extends React.Component {
                 user: this.state.user,
                 isLogged: Boolean(this.state.user),
                 getDiscover: this.getDiscover,
-                favourites: this.state.favourites,
-                hasFavourites: Boolean(this.state.favourites),
-                getFavourite: this.getFavourite,
+                favorites: this.state.favorites,
+                hasFavorites: Boolean(this.state.favorites),
+                getFavorite: this.getFavorite,
                 getTrending: this.getTrending,
                 getSearch: this.getSearch,
                 login: this.login,
                 logout: this.logout,
-                addFavourite: this.addFavourite,
+                addFavorite: this.addFavorite,
                 unfollow: this.unfollow
               }}>
                 <Nav />
@@ -64,13 +64,13 @@ export default class extends React.Component {
         const { results } = await response.json();
         return results;
     }
-    _checkFavourites = userId => {
+    _checkFavorites = userId => {
         const userFav = (
-            JSON.parse(localStorage.getItem('favourites')) || {}
+            JSON.parse(localStorage.getItem('favorites')) || {}
           )[userId];
-        this.setState({ favourites: userFav });
+        this.setState({ favorites: userFav });
     }
-    getFavourite = async id => {
+    getFavorite = async id => {
         const response = await fetch(URL_SEARCH_ID.replace('movie_id', id));
         const results = await response.json();
         return results;
@@ -83,13 +83,6 @@ export default class extends React.Component {
         );
     }
     _findUsers = async () => {
-        /*try {
-            const response = await fetch(USERS_URL)
-            const { results: users } = await response.json()
-            return users
-        } catch (error) {
-
-        }*/
         const response = await fetch(USERS_URL)
         const { results: users } = await response.json()
         return users
@@ -100,8 +93,7 @@ export default class extends React.Component {
             throw new Error('No user found');
         }
         localStorage.setItem('user', JSON.stringify(user));
-        // TODO: Añadir favourites
-        this._checkFavourites(user.login.uuid);
+        this._checkFavorites(user.login.uuid);
         this.setState({ user });
         return user;
     }
@@ -109,24 +101,24 @@ export default class extends React.Component {
         this.setState({ user: null });
         localStorage.removeItem('user');
     }
-    addFavourite = (filmID, userID) => {
-        const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
-        const favouritesUser = favourites[userID] || [];
+    addFavorite = (filmID, userID) => {
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
+        const favoritesUser = favorites[userID] || [];
     
-        if (!favouritesUser.includes(filmID)) {
-          favouritesUser.push(filmID);
-          favourites[userID] = favouritesUser;
-          localStorage.setItem('favourites', JSON.stringify(favourites));
+        if (!favoritesUser.includes(filmID)) {
+          favoritesUser.push(filmID);
+          favorites[userID] = favoritesUser;
+          localStorage.setItem('favorites', JSON.stringify(favorites));
         }
-        this.setState({favourites: favouritesUser});
+        this.setState({favorites: favoritesUser});
     }
     unfollow = filmID => {
-        const favourites = JSON.parse(localStorage.getItem('favourites')) || {};
-        const favouritesUser = favourites[this.state.user.login.uuid] || [];
-        const updatedFavourites = favouritesUser.filter(id => id !== filmID);
-        favourites[this.state.user.login.uuid] = updatedFavourites;
-        localStorage.setItem('favourites', JSON.stringify(favourites));
-        this.setState({favourites: updatedFavourites});
+        const favorites = JSON.parse(localStorage.getItem('favorites')) || {};
+        const favoritesUser = favorites[this.state.user.login.uuid] || [];
+        const updatedFavorites = favoritesUser.filter(id => id !== filmID);
+        favorites[this.state.user.login.uuid] = updatedFavorites;
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        this.setState({favorites: updatedFavorites});
     }
 }
     
