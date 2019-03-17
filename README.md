@@ -60,11 +60,11 @@ To go to the base URL, you can use:
 
 [http://localhost:3000/login](http://localhost:3000/login)
 
-You can login with any of the following users. When you are logged, you can add movies to favorite list and add rating to each movie from detail view.
+You can login with any of the following users provided by the URL below. All you need todo is to introduce the login.username and login.passworld.
 
 [https://randomuser.me/api?seed=abc&results=100](https://randomuser.me/api?seed=abc&results=100)
 
-All you need is to introduce the login.username and login.passworld.
+ When you are logged, you can add movies to favorite list and add rating to each movie from detail view.
 
 **Note: Anyway, if you don´t login, you will be able to continue using the app**
 
