@@ -30,7 +30,7 @@ export default class extends React.Component {
                 getDiscover: this.getDiscover,
                 favorites: this.state.favorites,
                 hasFavorites: Boolean(this.state.favorites),
-                getFavorite: this.getFavorite,
+                getFilmById: this.getFilmById,
                 getTrending: this.getTrending,
                 getSearch: this.getSearch,
                 login: this.login,
@@ -70,7 +70,7 @@ export default class extends React.Component {
           )[userId];
         this.setState({ favorites: userFav });
     }
-    getFavorite = async id => {
+    getFilmById = async id => {
         const response = await fetch(URL_SEARCH_ID.replace('movie_id', id));
         const results = await response.json();
         return results;
