@@ -1,6 +1,5 @@
 import React from 'react';
 
-import Film from './Film';
 import Data from './Data';
 import AddAssessment from './AddAssessment';
 import AddFavorite from './AddFavorite';
