@@ -8,18 +8,21 @@ const URL_DISCOVER_PAGING = 'https://api.themoviedb.org/3/discover/movie?api_key
 const URL_SEARCH_ID = 'https://api.themoviedb.org/3/movie/movie_id?api_key=e68728e1e31dcda82f7b2b896f0c47be';
 const URL_TRENDING = 'https://api.themoviedb.org/3/trending/movie/week?api_key=e68728e1e31dcda82f7b2b896f0c47be';
 const URL_SEARCH = 'https://api.themoviedb.org/3/search/movie?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US&page=1&include_adult=false&query=';
+const URL_GENRES = 'https://api.themoviedb.org/3/genre/movie/list?api_key=e68728e1e31dcda82f7b2b896f0c47be&language=en-US';
 
 export default class extends React.Component {
     state = {
         user: JSON.parse(localStorage.getItem('user'))
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         const { user } =  this.state;
         
         if (user) {
             this._checkFavorites(user.login.uuid);
         }
+
+        await this._getGenres();
     }
 
     render() {
@@ -27,6 +30,7 @@ export default class extends React.Component {
             <LoginContext.Provider value={{
                 user: this.state.user,
                 isLogged: Boolean(this.state.user),
+                genresByFilm: this.genresByFilm,
                 getDiscover: this.getDiscover,
                 favorites: this.state.favorites,
                 hasFavorites: Boolean(this.state.favorites),
@@ -42,6 +46,36 @@ export default class extends React.Component {
                 <Routes />
             </LoginContext.Provider>
         )
+    }
+    _getGenres = async () => {
+        const response = await fetch(URL_GENRES);
+        const { genres } = await response.json();
+        localStorage.setItem('genres', JSON.stringify(genres));
+        this.setState({ genres });
+    }
+    genresByFilm = async arrId => {
+        var results = "";
+        const allGenres = JSON.parse(localStorage.getItem('genres')) || [];
+
+        for (var i = 0; i < arrId.length; i++) {
+            const objectGenre = await allGenres.find(genreItem => genreItem.id == arrId[i].id);
+            if (i == 0) 
+                results = `${objectGenre.name}`
+             else 
+                results = `${results} | ${objectGenre.name}`
+        }
+
+        /*arrId.forEach( (id, index) => {
+            const objectGenre = allGenres.find(item => item.id === id);
+            debugger
+            if (index == 0) 
+                results = `${objectGenre.name}`
+             else 
+                results = `${results} | ${objectGenre.name}`
+        });*/
+
+        debugger
+        return results;
     }
     getDiscover = async () => {
         var films = []

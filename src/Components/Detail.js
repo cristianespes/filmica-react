@@ -14,16 +14,16 @@ class Detail extends React.Component{
 
     async componentDidMount() {
         const assessments = JSON.parse(localStorage.getItem('assessments')) || {};
-            const film = assessments[`${this.state.movieId}`] || {};
-            const count = film['count'];
-            const total = film['total'];
-            const average = total / count;
-            console.log('average:' + average)
-            this.setState({ assessment: average || ''});
-        
+        const film = assessments[`${this.state.movieId}`] || {};
+        const count = film['count'];
+        const total = film['total'];
+        const average = total / count;
+        this.setState({ assessment: average || ''});
+
         try {
             const results = await this.props.getFilmById(this.state.movieId);
-            this.setState({ film: results });
+            const genres = await this.props.genresByFilm(results.genres);
+            this.setState({ film: results, genres: genres });
           } catch(error) {
             this.setState({ error: true });
           } finally {
@@ -55,6 +55,9 @@ class Detail extends React.Component{
                     </li>
                     <li key='release' className='dataList__data'>
                         <Data title='Release date' content={film.release_date}/>
+                    </li>
+                    <li key='genres' className='dataList__data'>
+                        <Data title='Genres' content={this.state.genres}/>
                     </li>
                     {
                         (parseFloat(assessment) >= 0.0 && parseFloat(assessment) <= 10.0) &&
@@ -95,7 +98,7 @@ class Detail extends React.Component{
 export default props =>
 <LoginContext.Consumer>
     {
-        ({ isLogged, getFilmById }) =>
-            <Detail {...props} isLogged={ isLogged } getFilmById={getFilmById} />
+        ({ isLogged, getFilmById, genresByFilm }) =>
+            <Detail {...props} isLogged={ isLogged } getFilmById={getFilmById} genresByFilm={genresByFilm} />
     }
 </LoginContext.Consumer>
